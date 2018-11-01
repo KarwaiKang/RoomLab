@@ -1,5 +1,6 @@
 package Game;
 
+import Items.Item;
 import People.Person;
 import Rooms.MyRoom;
 import Rooms.Room;
@@ -18,7 +19,9 @@ public class Runner {
         //Fill the building with normal rooms
         for (int x = 0; x < building.length; x++) {
             for (int y = 0; y < building[x].length; y++) {
-                building[x][y] = new Room(x, y);
+                double difficultyModifier = (double) x / building.length;
+                if (Math.random() < 0.5 + difficultyModifier)
+                    building[x][y] = new Room(x, y);
             }
         }
 
