@@ -16,9 +16,8 @@ public class Board {
     public String toString() {
         String out = "";
         for (Room[] row : this.rooms) {
-            for (Room room : row) {
+            for (Room room : row)
                 out += room.toString();
-            }
             out += "\n";
         }
         return out;

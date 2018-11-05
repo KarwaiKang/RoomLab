@@ -9,21 +9,19 @@ import Rooms.WinningRoom;
 import java.util.Scanner;
 
 public class Runner {
-
-
     private static boolean gameOn = true;
 
     public static void main(String[] args) {
         Board board = new Board(5,5);
 
-        //Fill the building with normal rooms
+        // Fill the building with normal rooms
 
         for (int x = 0; x < board.rooms.length; x++) {
             for (int y = 0; y < board.rooms[x].length; y++) {
                 Room room = new Room(x, y);
                 board.rooms[x][y] = room;
-                double difficultyModifier = (double) x / board.rooms.length;
-                if (Math.random() < difficultyModifier)
+                double diffMod = (double) x / board.rooms.length;
+                if (Math.random() < diffMod)
                     new Apple(room);
             }
         }

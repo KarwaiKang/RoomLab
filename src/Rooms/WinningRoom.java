@@ -4,6 +4,8 @@ import Game.Runner;
 import People.Person;
 
 public class WinningRoom extends Room {
+    private String description = "You found the winning room! Ten points for Gryffindor.";
+
     public WinningRoom(int x, int y) {
         super(x, y);
     }
@@ -17,7 +19,11 @@ public class WinningRoom extends Room {
         occupant = person;
         person.setXLoc(this.xLoc);
         person.setYLoc(this.yLoc);
-        System.out.println("You found the winning room! Ten points for Gryffindor.");
+        System.out.println(description);
         Runner.gameOff();
+    }
+
+    public String toString() {
+        return "W";
     }
 }

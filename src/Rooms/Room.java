@@ -50,11 +50,13 @@ public class Room {
     public void addItem(Item item) {
         if (this.contents == null)
             this.contents = new Item[]{item};
-        Item[] newContents = new Item[this.contents.length + 1];
-        for (int i = 0; i < this.contents.length; i++)
-            newContents[i] = this.contents[i];
-        newContents[this.contents.length] = item;
-        this.contents = newContents;
+        else {
+            Item[] newContents = new Item[this.contents.length + 1];
+            for (int i = 0; i < this.contents.length; i++)
+                newContents[i] = this.contents[i];
+            newContents[this.contents.length] = item;
+            this.contents = newContents;
+        }
     }
 
     public String toString() {
@@ -65,7 +67,7 @@ public class Room {
         return "_";
     }
 
-    public String examineRoom() {
+    public String getDescription() {
         return description;
     }
 }

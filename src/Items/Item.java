@@ -40,8 +40,4 @@ public class Item {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public String examine() {
-        return description;
-    }
 }
