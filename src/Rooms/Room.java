@@ -7,7 +7,7 @@ public class Room {
     Person occupant;
     private Item[] contents;
     int xLoc, yLoc;
-    private String description = "You enter a plain old room";
+    private String description = "You enter a plain old room.";
 
     public Room(int xLoc, int yLoc) {
         this.xLoc = xLoc;
@@ -21,10 +21,17 @@ public class Room {
      * @param person the Person entering
      */
     public void enterRoom(Person person) {
-        System.out.println(this);
+        System.out.println(description);
+        if (this.contents != null) {
+            System.out.println("On the ground, you see:");
+            String items = "";
+            for (Item item : contents)
+                items += "-" + item.getName() + " ";
+            System.out.println(items);
+        }
         occupant = person;
-        person.setxLoc(this.xLoc);
-        person.setyLoc(this.yLoc);
+        person.setXLoc(this.xLoc);
+        person.setYLoc(this.yLoc);
     }
 
     /**
@@ -41,14 +48,24 @@ public class Room {
     }
 
     public void addItem(Item item) {
+        if (this.contents == null)
+            this.contents = new Item[]{item};
         Item[] newContents = new Item[this.contents.length + 1];
         for (int i = 0; i < this.contents.length; i++)
             newContents[i] = this.contents[i];
-        newContents[this.contents.length + 1] = item;
+        newContents[this.contents.length] = item;
         this.contents = newContents;
     }
 
     public String toString() {
+        if (occupant != null)
+            return "P";
+        if (this.contents != null)
+            return "I";
+        return "_";
+    }
+
+    public String examineRoom() {
         return description;
     }
 }

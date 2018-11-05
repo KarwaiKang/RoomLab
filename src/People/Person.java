@@ -6,24 +6,7 @@ package People;
 public class Person {
     String firstName;
     String familyName;
-    int xLoc, yLoc;
-
-
-    public int getxLoc() {
-        return xLoc;
-    }
-
-    public void setxLoc(int xLoc) {
-        this.xLoc = xLoc;
-    }
-
-    public int getyLoc() {
-        return yLoc;
-    }
-
-    public void setyLoc(int yLoc) {
-        this.yLoc = yLoc;
-    }
+    private int xLoc, yLoc;
 
     public Person(String firstName, String familyName, int xLoc, int yLoc) {
         this.firstName = firstName;
@@ -32,5 +15,19 @@ public class Person {
         this.yLoc = yLoc;
     }
 
+    public int getXLoc() {
+        return xLoc;
+    }
 
+    public void setXLoc(int xLoc) {
+        this.xLoc = xLoc;
+    }
+
+    public int getYLoc() {
+        return yLoc;
+    }
+
+    public void setYLoc(int yLoc) {
+        this.yLoc = yLoc;
+    }
 }

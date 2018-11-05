@@ -1,6 +1,6 @@
 package Game;
 
-import Items.Item;
+import Items.Apple;
 import People.Person;
 import Rooms.MyRoom;
 import Rooms.Room;
@@ -14,42 +14,46 @@ public class Runner {
     private static boolean gameOn = true;
 
     public static void main(String[] args) {
-        Room[][] building = new Room[5][5];
+        Board board = new Board(5,5);
 
         //Fill the building with normal rooms
-        for (int x = 0; x < building.length; x++) {
-            for (int y = 0; y < building[x].length; y++) {
-                double difficultyModifier = (double) x / building.length;
-                if (Math.random() < 0.5 + difficultyModifier)
-                    building[x][y] = new Room(x, y);
+
+        for (int x = 0; x < board.rooms.length; x++) {
+            for (int y = 0; y < board.rooms[x].length; y++) {
+                Room room = new Room(x, y);
+                board.rooms[x][y] = room;
+                double difficultyModifier = (double) x / board.rooms.length;
+                if (Math.random() < difficultyModifier)
+                    new Apple(room);
             }
         }
 
         //Create a random winning room.
-        int x = (int) (Math.random() * building.length);
-        int y = (int) (Math.random() * building.length);
-        building[x][y] = new WinningRoom(x, y);
+        int x = (int) (Math.random() * board.rooms.length);
+        int y = (int) (Math.random() * board.rooms.length);
+        board.rooms[x][y] = new WinningRoom(x, y);
 
         //Create a random MyRoom.
-        x = (int) (Math.random() * building.length);
-        y = (int) (Math.random() * building.length);
-        building[x][y] = new MyRoom(x, y);
+        x = (int) (Math.random() * board.rooms.length);
+        y = (int) (Math.random() * board.rooms.length);
+        board.rooms[x][y] = new MyRoom(x, y);
 
         //Setup player 1 and the input scanner
         Person player1 = new Person("FirstName", "FamilyName", 0, 0);
-        building[0][0].enterRoom(player1);
         Scanner in = new Scanner(System.in);
+        board.rooms[0][0].enterRoom(player1);
         while (gameOn) {
-            System.out.println("Where would you like to move? (Choose N, S, E, W)");
-            String move = in.nextLine();
-            if (validMove(move, player1, building)) {
-                System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
-
-            } else {
-                System.out.println("Please choose a valid move.");
+            String input = in.nextLine();
+            String[] inputs = input.split(" ");
+            String verb = inputs[0];
+            String object = inputs[1];
+            switch (verb) {
+                case "go":
+                    validMove(object, player1, board);
+                    break;
+                default:
+                    System.out.println("You cannot " + input + ".");
             }
-
-
         }
         in.close();
     }
@@ -57,53 +61,34 @@ public class Runner {
     /**
      * Checks that the movement chosen is within the valid game map.
      *
-     * @param move the move chosen
-     * @param p    person moving
-     * @param map  the 2D array of rooms
-     * @return
+     * @param move   the move chosen
+     * @param p      person moving
+     * @param board  the class with a 2D array of rooms
      */
-    public static boolean validMove(String move, Person p, Room[][] map) {
+    public static void validMove(String move, Person p, Board board) {
         move = move.toLowerCase().trim();
-        switch (move) {
-            case "n":
-                if (p.getxLoc() > 0) {
-                    map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-                    map[p.getxLoc() - 1][p.getyLoc()].enterRoom(p);
-                    return true;
-                } else {
-                    return false;
-                }
-            case "e":
-                if (p.getyLoc() < map[p.getyLoc()].length - 1) {
-                    map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-                    map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
-                    return true;
-                } else {
-                    return false;
-                }
-
-            case "s":
-                if (p.getxLoc() < map.length - 1) {
-                    map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-                    map[p.getxLoc() + 1][p.getyLoc()].enterRoom(p);
-                    return true;
-                } else {
-                    return false;
-                }
-
-            case "w":
-                if (p.getyLoc() > 0) {
-                    map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-                    map[p.getxLoc()][p.getyLoc() - 1].enterRoom(p);
-                    return true;
-                } else {
-                    return false;
-                }
-            default:
-                break;
-
+        Room[][] map = board.rooms;
+        int x = p.getXLoc();
+        int y = p.getYLoc();
+        if (move.equals("north") && x > 0) {
+            map[x][y].leaveRoom(p);
+            map[x - 1][y].enterRoom(p);
+            System.out.println(board);
+        } else if (move.equals("east") && y < map[y].length - 1) {
+            map[x][y].leaveRoom(p);
+            map[x][y + 1].enterRoom(p);
+            System.out.println(board);
+        } else if (move.equals("south") && x < map.length - 1) {
+            map[x][y].leaveRoom(p);
+            map[x + 1][y].enterRoom(p);
+            System.out.println(board);
+        } else if (move.equals("west") && y > 0) {
+            map[x][y].leaveRoom(p);
+            map[x][y - 1].enterRoom(p);
+            System.out.println(board);
+        } else {
+            System.out.println("You try to move " + move + ", but there is a wall there.");
         }
-        return true;
     }
 
     public static void gameOff() {

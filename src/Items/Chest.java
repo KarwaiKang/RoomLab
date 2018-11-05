@@ -7,7 +7,7 @@ public class Chest extends Item {
     private boolean locked;
 
     public Chest(String name, double rarity, Room room, String description, Item[] contents, boolean locked) {
-        super(name, rarity, room, description);
+        super(room, name, rarity, description);
         this.contents = contents;
         this.locked = locked;
     }

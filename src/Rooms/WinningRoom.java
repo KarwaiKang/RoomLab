@@ -15,8 +15,8 @@ public class WinningRoom extends Room {
     @Override
     public void enterRoom(Person person) {
         occupant = person;
-        person.setxLoc(this.xLoc);
-        person.setyLoc(this.yLoc);
+        person.setXLoc(this.xLoc);
+        person.setYLoc(this.yLoc);
         System.out.println("You found the winning room! Ten points for Gryffindor.");
         Runner.gameOff();
     }
