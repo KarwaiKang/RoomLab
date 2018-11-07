@@ -1,20 +1,33 @@
 package Items;
 
+import People.Person;
 import Rooms.Room;
 
 public class Item {
-    private Room room;
-    private String name;
+    private int idx;
     private double rarity;
-    private String description;
+    private String name, description;
+    private Room room;
 
-    public Item(Room room, String name, double rarity, String description) {
+    public Item(String name, double rarity, String description) {
+        this.name = name;
+        this.rarity = rarity;
+        this.description = description;
+    }
+
+    public Item(String name, double rarity, String description, Room room) {
         this.room = room;
         this.name = name;
         this.rarity = rarity;
         this.description = description;
+        this.idx = room.addItem(this);
+    }
 
-        room.addItem(this);
+    public Item(String name, double rarity, String description, Person person) {
+        this.name = name;
+        this.rarity = rarity;
+        this.description = description;
+        this.idx = person.addItem(this);
     }
 
     public String getName() {
@@ -39,5 +52,11 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String take(Person p) {
+        this.room.getContents()[this.idx] = null;
+        p.addItem(this);
+        return "You take the " + this.name + ".";
     }
 }

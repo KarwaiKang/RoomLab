@@ -4,10 +4,10 @@ import Items.Item;
 import People.Person;
 
 public class Room {
-    Person occupant;
-    private Item[] contents;
     int xLoc, yLoc;
     private String description = "You enter a plain old room.";
+    Person occupant;
+    private Item[] contents;
 
     public Room(int xLoc, int yLoc) {
         this.xLoc = xLoc;
@@ -37,9 +37,9 @@ public class Room {
     /**
      * Removes the player from the room.
      *
-     * @param x
+     * @param person
      */
-    public void leaveRoom(Person x) {
+    public void leaveRoom(Person person) {
         occupant = null;
     }
 
@@ -47,7 +47,7 @@ public class Room {
         return contents;
     }
 
-    public void addItem(Item item) {
+    public int addItem(Item item) {
         if (this.contents == null)
             this.contents = new Item[]{item};
         else {
@@ -57,6 +57,7 @@ public class Room {
             newContents[this.contents.length] = item;
             this.contents = newContents;
         }
+        return this.contents.length - 1;
     }
 
     public String toString() {

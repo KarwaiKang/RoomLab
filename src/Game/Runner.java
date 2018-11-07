@@ -1,6 +1,7 @@
 package Game;
 
 import Items.Apple;
+import Items.Item;
 import People.Person;
 import Rooms.MyRoom;
 import Rooms.Room;
@@ -47,7 +48,21 @@ public class Runner {
             String object = inputs[1];
             switch (verb) {
                 case "go":
-                    validMove(object, player1, board);
+                    System.out.println(player1.move(object, board));
+                    break;
+                case "examine":
+                    Item i = findItem(object, player1.getInventory());
+                    if (i == null)
+                        System.out.println("You don't have a " + object + ".");
+                    else
+                        System.out.println(i.getDescription());
+                    break;
+                case "take":
+                    Item item = findItem(object, board.rooms[player1.getXLoc()][player1.getYLoc()].getContents());
+                    if (item == null)
+                        System.out.println("There is no " + object + " here.");
+                    else
+                        System.out.println(item.take(player1));
                     break;
                 default:
                     System.out.println("You cannot " + input + ".");
@@ -56,42 +71,15 @@ public class Runner {
         in.close();
     }
 
-    /**
-     * Checks that the movement chosen is within the valid game map.
-     *
-     * @param move   the move chosen
-     * @param p      person moving
-     * @param board  the class with a 2D array of rooms
-     */
-    public static void validMove(String move, Person p, Board board) {
-        move = move.toLowerCase().trim();
-        Room[][] map = board.rooms;
-        int x = p.getXLoc();
-        int y = p.getYLoc();
-        if (move.equals("north") && x > 0) {
-            map[x][y].leaveRoom(p);
-            map[x - 1][y].enterRoom(p);
-            System.out.println(board);
-        } else if (move.equals("east") && y < map[y].length - 1) {
-            map[x][y].leaveRoom(p);
-            map[x][y + 1].enterRoom(p);
-            System.out.println(board);
-        } else if (move.equals("south") && x < map.length - 1) {
-            map[x][y].leaveRoom(p);
-            map[x + 1][y].enterRoom(p);
-            System.out.println(board);
-        } else if (move.equals("west") && y > 0) {
-            map[x][y].leaveRoom(p);
-            map[x][y - 1].enterRoom(p);
-            System.out.println(board);
-        } else {
-            System.out.println("You try to move " + move + ", but there is a wall there.");
+    public static Item findItem(String item, Item[] itemArr) {
+        for (Item i : itemArr) {
+            if (i.getName().toLowerCase().equals(item.toLowerCase()))
+                return i;
         }
+        return null;
     }
 
     public static void gameOff() {
         gameOn = false;
     }
-
-
 }
