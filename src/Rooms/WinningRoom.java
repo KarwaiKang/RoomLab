@@ -4,7 +4,7 @@ import Game.Runner;
 import People.Person;
 
 public class WinningRoom extends Room {
-    private String description = "You found the winning room! Ten points for Gryffindor.";
+    private String description = "You found the winning room! How much health did you get?";
 
     public WinningRoom(int x, int y) {
         super(x, y);

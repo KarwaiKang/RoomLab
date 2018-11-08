@@ -11,11 +11,11 @@ import java.util.Scanner;
 
 public class Runner {
     private static boolean gameOn = true;
-    private static Board board = new Board(5,5);
+    private static Board board = new Board(5,100);
     private static Person player1 = new Person("FirstName", "FamilyName", 0, 0);
     private static String help = "List of available commands:\n" +
-            "\"help\" to see this message again\n" +
-            "\"go <north|south|east|west>\" to move\n" +
+            "\"help\" to see this message again.\n" +
+            "\"go <north|south|east|west>\" to move.\n" +
             "\"check <map|health>\" to look at the map/your health.\n" +
             "\"examine <item>\" to examine items in your inventory.\n" +
             "\"take <item>\" to put items that are in the room in your inventory.\n" +
@@ -28,7 +28,7 @@ public class Runner {
             for (int y = 0; y < board.rooms[x].length; y++) {
                 Room room = new Room(x, y);
                 board.rooms[x][y] = room;
-                double diffMod = (double) x / board.rooms.length;
+                double diffMod = (double) y / board.rooms[0].length;
                 if (Math.random() < diffMod)
                     new Apple(room);
             }
@@ -36,7 +36,7 @@ public class Runner {
 
         //Create a random winning room.
         int x = (int) (Math.random() * board.rooms.length);
-        int y = (int) (Math.random() * board.rooms.length);
+        int y = board.rooms[0].length - 1;
         board.rooms[x][y] = new WinningRoom(x, y);
 
         //Create a random MyRoom.

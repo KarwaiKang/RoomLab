@@ -64,7 +64,7 @@ public class Room {
         if (occupant != null)
             return "P";
         if (this.contents != null)
-            return "I";
+            return "A";
         return "_";
     }
 

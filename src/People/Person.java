@@ -18,6 +18,8 @@ public class Person {
         this.familyName = familyName;
         this.xLoc = xLoc;
         this.yLoc = yLoc;
+        this.HP = 5;
+        this.maxHP = 100;
     }
 
     public int getXLoc() {
