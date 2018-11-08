@@ -10,7 +10,7 @@ import Rooms.Room;
 public class Person {
     String firstName;
     String familyName;
-    private int xLoc, yLoc;
+    private int xLoc, yLoc, HP, maxHP;
     private Item[] inventory;
 
     public Person(String firstName, String familyName, int xLoc, int yLoc) {
@@ -34,6 +34,22 @@ public class Person {
 
     public void setYLoc(int yLoc) {
         this.yLoc = yLoc;
+    }
+
+    public int getHP() {
+        return HP;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+
+    public int getMaxHP() {
+        return maxHP;
+    }
+
+    public void setMaxHP(int maxHP) {
+        this.maxHP = maxHP;
     }
 
     public Item[] getInventory() {

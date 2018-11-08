@@ -11,10 +11,17 @@ import java.util.Scanner;
 
 public class Runner {
     private static boolean gameOn = true;
+    private static Board board = new Board(5,5);
+    private static Person player1 = new Person("FirstName", "FamilyName", 0, 0);
+    private static String help = "List of available commands:\n" +
+            "\"help\" to see this message again\n" +
+            "\"go <north|south|east|west>\" to move\n" +
+            "\"check <map|health>\" to look at the map/your health.\n" +
+            "\"examine <item>\" to examine items in your inventory.\n" +
+            "\"take <item>\" to put items that are in the room in your inventory.\n" +
+            "\"eat <food>\" to eat food items.";
 
     public static void main(String[] args) {
-        Board board = new Board(5,5);
-
         // Fill the building with normal rooms
 
         for (int x = 0; x < board.rooms.length; x++) {
@@ -37,9 +44,8 @@ public class Runner {
         y = (int) (Math.random() * board.rooms.length);
         board.rooms[x][y] = new MyRoom(x, y);
 
-        //Setup player 1 and the input scanner
-        Person player1 = new Person("FirstName", "FamilyName", 0, 0);
         Scanner in = new Scanner(System.in);
+        System.out.println(help);
         board.rooms[0][0].enterRoom(player1);
         while (gameOn) {
             String input = in.nextLine();
@@ -47,8 +53,21 @@ public class Runner {
             String verb = inputs[0];
             String object = inputs[1];
             switch (verb) {
+                case "help":
+                    System.out.println(help);
+                    break;
                 case "go":
                     System.out.println(player1.move(object, board));
+                    break;
+                case "check":
+                    switch (object) {
+                        case "map":
+                            System.out.println(board);
+                            break;
+                        case "health":
+                            System.out.println(player1.getHP() + "/" + player1.getMaxHP());
+                            break;
+                    }
                     break;
                 case "examine":
                     Item i = findItem(object, player1.getInventory());
@@ -64,14 +83,21 @@ public class Runner {
                     else
                         System.out.println(item.take(player1));
                     break;
+                case "eat":
+                    Item food = findItem(object, player1.getInventory());
+                    if (food == null)
+                        System.out.println("You don't have a " + object + ".");
+                    else
+                        System.out.println(food.eat(player1));
+                    break;
                 default:
-                    System.out.println("You cannot " + input + ".");
+                    System.out.println("You cannot " + input + ". (type \"help\" for more options.)");
             }
         }
         in.close();
     }
 
-    public static Item findItem(String item, Item[] itemArr) {
+    private static Item findItem(String item, Item[] itemArr) {
         for (Item i : itemArr) {
             if (i.getName().toLowerCase().equals(item.toLowerCase()))
                 return i;

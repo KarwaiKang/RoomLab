@@ -6,7 +6,7 @@ import Rooms.Room;
 public class Item {
     private int idx;
     private double rarity;
-    private String name, description;
+    private String name, description, type;
     private Room room;
 
     public Item(String name, double rarity, String description) {
@@ -38,6 +38,14 @@ public class Item {
         this.name = name;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public double getRarity() {
         return rarity;
     }
@@ -58,5 +66,9 @@ public class Item {
         this.room.getContents()[this.idx] = null;
         p.addItem(this);
         return "You take the " + this.name + ".";
+    }
+
+    public String eat(Person person) {
+        return "You cannot eat " + this.name + ".";
     }
 }
