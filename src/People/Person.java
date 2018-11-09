@@ -21,6 +21,14 @@ public class Person {
         this.maxHP = maxHP;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getXLoc() {
         return xLoc;
     }
@@ -70,27 +78,28 @@ public class Person {
     public String move(String move, Board board) {
         move = move.toLowerCase().trim();
         Room[][] map = board.rooms;
+        String out = "";
         if (move.equals("north") && xLoc > 0) {
             map[xLoc][yLoc].leaveRoom(this);
-            map[xLoc - 1][yLoc].enterRoom(this);
-            return "You move north.\n" + board;
+            out += map[xLoc - 1][yLoc].enterRoom(this);
+            return "You move north.\n" + board + out;
         }
-        if (move.equals("east") && yLoc < map[yLoc].length - 1) {
+        else if (move.equals("east") && yLoc < map[0].length - 1) {
             map[xLoc][yLoc].leaveRoom(this);
-            map[xLoc][yLoc + 1].enterRoom(this);
-            return "You move east.\n" + board;
+            out += map[xLoc][yLoc + 1].enterRoom(this);
+            return "You move east.\n" + board + out;
         }
-        if (move.equals("south") && xLoc < map.length - 1) {
+        else if (move.equals("south") && xLoc < map.length - 1) {
             map[xLoc][yLoc].leaveRoom(this);
-            map[xLoc + 1][yLoc].enterRoom(this);
-            return "You move south.\n" + board;
+            out += map[xLoc + 1][yLoc].enterRoom(this);
+            return "You move south.\n" + board + out;
         }
-        if (move.equals("west") && yLoc > 0) {
+        else if (move.equals("west") && yLoc > 0) {
             map[xLoc][yLoc].leaveRoom(this);
-            map[xLoc][yLoc - 1].enterRoom(this);
-            return "You move west.\n" + board;
-        }
-        return "You try to move " + move + ", but you cannot.";
+            out += map[xLoc][yLoc - 1].enterRoom(this);
+            return "You move west.\n" + board + out;
+        } else
+            return "You try to move " + move + ", but realize you don't actually want to.";
     }
 
     public int addItem(Item item) {

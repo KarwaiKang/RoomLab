@@ -5,7 +5,7 @@ import People.Person;
 
 public class Room {
     int xLoc, yLoc;
-    private String description = "You enter a plain old room.";
+    private String description = "You enter a open field.";
     Person occupant;
     private Item[] contents;
 
@@ -30,8 +30,10 @@ public class Room {
                 items += "-" + item.getName() + " ";
             out += items;
         }
-        if (occupant != null)
-            out += "You crushed a rabbit.";
+        if (occupant != null) {
+            out += "\nYou crushed a rabbit, and take 1 damage. Ouch!\n";
+            person.setHP(person.getHP() - 1);
+        }
         occupant = person;
         person.setXLoc(this.xLoc);
         person.setYLoc(this.yLoc);

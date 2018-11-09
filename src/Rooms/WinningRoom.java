@@ -19,8 +19,10 @@ public class WinningRoom extends Room {
         occupant = person;
         person.setXLoc(this.xLoc);
         person.setYLoc(this.yLoc);
-        System.out.println(description);
-        Runner.gameOff();
+        if (person.getName().equals("Player")) {
+            System.out.println(description);
+            Runner.gameOff();
+        }
         return "";
     }
 
