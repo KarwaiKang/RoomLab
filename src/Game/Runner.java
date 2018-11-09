@@ -92,6 +92,7 @@ public class Runner {
                             else {
                                 for (Item item : player1.getInventory())
                                     out += " -" + item.getName();
+                                System.out.println(out);
                             }
                             break;
                         default:
