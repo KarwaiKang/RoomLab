@@ -15,15 +15,16 @@ public class WinningRoom extends Room {
      * @param person the Person entering
      */
     @Override
-    public void enterRoom(Person person) {
+    public String enterRoom(Person person) {
         occupant = person;
         person.setXLoc(this.xLoc);
         person.setYLoc(this.yLoc);
         System.out.println(description);
         Runner.gameOff();
+        return "";
     }
 
     public String toString() {
-        return "W";
+        return "勝";
     }
 }

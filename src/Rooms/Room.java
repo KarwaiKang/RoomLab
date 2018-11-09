@@ -20,18 +20,22 @@ public class Room {
      *
      * @param person the Person entering
      */
-    public void enterRoom(Person person) {
-        System.out.println(description);
+    public String enterRoom(Person person) {
+        String out = "";
+        out += description;
         if (this.contents != null) {
-            System.out.println("On the ground, you see:");
+            out += "\nOn the ground, you see:\n";
             String items = "";
             for (Item item : contents)
                 items += "-" + item.getName() + " ";
-            System.out.println(items);
+            out += items;
         }
+        if (occupant != null)
+            out += "You crushed a rabbit.";
         occupant = person;
         person.setXLoc(this.xLoc);
         person.setYLoc(this.yLoc);
+        return out;
     }
 
     /**
@@ -62,10 +66,10 @@ public class Room {
 
     public String toString() {
         if (occupant != null)
-            return "P";
+            return occupant.toString();
         if (this.contents != null)
-            return "A";
-        return "_";
+            return "物";
+        return "　";
     }
 
     public String getDescription() {

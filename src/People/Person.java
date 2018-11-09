@@ -3,23 +3,22 @@ package People;
 import Game.Board;
 import Items.Item;
 import Rooms.Room;
+import javafx.geometry.HPos;
 
 /**
  * Person represents the player as they move through the game.
  */
 public class Person {
-    String firstName;
-    String familyName;
+    String name;
     private int xLoc, yLoc, HP, maxHP;
     private Item[] inventory;
 
-    public Person(String firstName, String familyName, int xLoc, int yLoc) {
-        this.firstName = firstName;
-        this.familyName = familyName;
+    public Person(String name, int xLoc, int yLoc, int HP, int maxHP) {
+        this.name = name;
         this.xLoc = xLoc;
         this.yLoc = yLoc;
-        this.HP = 5;
-        this.maxHP = 100;
+        this.HP = HP;
+        this.maxHP = maxHP;
     }
 
     public int getXLoc() {
@@ -105,5 +104,9 @@ public class Person {
             this.inventory = newContents;
         }
         return this.inventory.length - 1;
+    }
+
+    public String toString() {
+        return "私";
     }
 }

@@ -8,7 +8,7 @@ public class MyRoom extends Room {
         super(x, y);
     }
 
-    public void enterRoom(Person person) {
+    public String enterRoom(Person person) {
         occupant = person;
         person.setXLoc(this.xLoc);
         person.setYLoc(this.yLoc);
@@ -16,9 +16,10 @@ public class MyRoom extends Room {
                 "Before you even realize it, you fall fast asleep.\n" +
                 "/////////////////// GAME OVER (Bad end no. 1) ///////////////////");
         Runner.gameOff();
+        return "";
     }
 
     public String toString() {
-        return "M";
+        return "負";
     }
 }

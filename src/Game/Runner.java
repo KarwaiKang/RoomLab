@@ -2,7 +2,9 @@ package Game;
 
 import Items.Apple;
 import Items.Item;
+import People.Enemy;
 import People.Person;
+import People.Rabbit;
 import Rooms.MyRoom;
 import Rooms.Room;
 import Rooms.WinningRoom;
@@ -12,7 +14,7 @@ import java.util.Scanner;
 public class Runner {
     private static boolean gameOn = true;
     private static Board board = new Board(5,100);
-    private static Person player1 = new Person("FirstName", "FamilyName", 0, 0);
+    private static Person player1 = new Person("FirstName", 0, 0, 10, 10);
     private static String help = "List of available commands:\n" +
             "\"help\" to see this message again.\n" +
             "\"go <north|south|east|west>\" to move.\n" +
@@ -29,8 +31,12 @@ public class Runner {
                 Room room = new Room(x, y);
                 board.rooms[x][y] = room;
                 double diffMod = (double) y / board.rooms[0].length;
-                if (Math.random() < diffMod)
+                if (diffMod > .25)
+                    diffMod = .25;
+                if (Math.random() < diffMod - .1)
                     new Apple(room);
+                else if (Math.random() < .15)
+                    room.enterRoom(new Rabbit(x, y));
             }
         }
 
@@ -49,15 +55,26 @@ public class Runner {
         board.rooms[0][0].enterRoom(player1);
         while (gameOn) {
             String input = in.nextLine();
-            String[] inputs = input.split(" ");
-            String verb = inputs[0];
-            String object = inputs[1];
+            String verb, object;
+            if (input.contains(" ")) {
+                String[] inputs = input.split(" ");
+                verb = inputs[0];
+                object = inputs[1];
+            }
+            else {
+                verb = input;
+                object = "";
+            }
             switch (verb) {
                 case "help":
                     System.out.println(help);
                     break;
                 case "go":
                     System.out.println(player1.move(object, board));
+                    for (Enemy enemy : Enemy.enemies) {
+                        String move = new String[]{"north", "south", "west"}[(int) Math.floor(Math.random() * 2)];
+                        enemy.move(move, board);
+                    }
                     break;
                 case "check":
                     switch (object) {
@@ -70,6 +87,10 @@ public class Runner {
                     }
                     break;
                 case "examine":
+                    if (object.equals("room")) {
+                        System.out.println(board.rooms[player1.getXLoc()][player1.getYLoc()].getDescription());
+                        break;
+                    }
                     Item i = findItem(object, player1.getInventory());
                     if (i == null)
                         System.out.println("You don't have a " + object + ".");
